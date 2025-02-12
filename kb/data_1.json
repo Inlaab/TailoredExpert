@@ -1,13 +1,12 @@
 {
-  "concepto": "Inteligencia Artificial",
-  "tipo": "raiz",
-  "relaciones": [
-      "Machine Learning",
-      "Redes Neuronales",
-      "Procesamiento Natural"
-  ],
+  "nodo": "AgentePrincipal",
+  "tipo": "agente",
+  "conexiones": ["BaseConocimiento", "SistemaReglas"],
   "metadata": {
-      "fecha": "2024-01-20",
-      "version": "1.0"
+      "descripcion": "Agente principal de procesamiento",
+      "capacidades": ["NLP", "Razonamiento", "Aprendizaje"],
+      "version": "1.0",
+      "estado": "activo",
+      "prioridad": 1
   }
 }

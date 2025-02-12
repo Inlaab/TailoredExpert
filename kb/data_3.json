@@ -1,0 +1,22 @@
+{
+    "nodo": "NodoExtremo",
+    "tipo": null,
+    "conexiones": [
+        "NodoInexistente1",
+        null,
+        {"nodo_malformado": "error"},
+        123,
+        "BaseConocimiento"
+    ],
+    "metadata": {
+        "array_vacio": [],
+        "objeto_anidado": {
+            "nivel1": {
+                "nivel2": null
+            }
+        },
+        "números": [1, 2, 3],
+        "booleanos": [true, false],
+        "caracteres_especiales": "áéíóú!@#$%^&*()"
+    }
+}

@@ -1,13 +1,12 @@
 {
-  "concepto": "Machine Learning",
-  "tipo": "rama",
-  "relaciones": [
-      "Aprendizaje Supervisado",
-      "Aprendizaje No Supervisado",
-      "Aprendizaje por Refuerzo"
-  ],
+  "nodo": "BaseConocimiento",
+  "tipo": "conocimiento",
+  "conexiones": ["MotorInferencia", "AlmacenDatos"],
   "metadata": {
-      "fecha": "2024-01-20",
-      "version": "1.0"
+      "descripcion": "Base de conocimiento central",
+      "dominios": ["general", "específico"],
+      "formato": "vectorial",
+      "actualizacion": "2024-01-20",
+      "tamaño": "10GB"
   }
 }

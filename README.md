@@ -62,6 +62,17 @@ Estructura base diseñada para crear agentes de IA escalables usando grafos de c
     }
 }
 
+##Estructura de la data en \kb
+{
+    "nodo": "nombre_del_nodo",
+    "tipo": "tipo_opcional",
+    "conexiones": ["nodo1", "nodo2"],
+    "metadata": {
+        "campo1": "valor1",
+        "campo2": "valor2"
+    }
+}
+
 ## Capacidades Base
 
 1. **Gestión de Conocimiento**

@@ -1,0 +1,99 @@
+{
+    "nodo": "consultores",
+    "tipo": "tarifas",
+    "conexiones": ["calcular", "cotizar"],
+    "metadata": {
+        "Consultores": [
+            {
+                "id": 1,
+                "nombre": "César Rodríguez",
+                "salario": 2000000,
+                "vinculacion": "Tiempo_Completo",
+                "base": "Bogotá - Ciudadela Colsubsidio",
+                "rol": "Director de Operaciones"
+            },
+            {
+                "id": 2,
+                "nombre": "Valeria Carolina Rico Cárdenas",
+                "salario": 2000000,
+                "vinculacion": "Tiempo_Completo",
+                "base": "Cra 101 # 83-90 Bochica VI",
+                "zona": "Norte",
+                "ciudad": "Bogotá",
+                "rol": "Consultor"
+            },
+            {
+                "id": 3,
+                "nombre": "Sebastián Romero Rodríguez",
+                "salario": 2000000,
+                "vinculacion": "Tiempo_Completo",
+                "base": "Calle 8a sur # 9c 24 Soacha",
+                "zona": "Centro",
+                "ciudad": "Bogotá",
+                "rol": "Consultor"
+            },
+            {
+                "id": 4,
+                "nombre": "Carlos Arturo Vargas Castellanos",
+                "salario": 2000000,
+                "vinculacion": "Tiempo_Completo",
+                "base": "Cra 19a 1 84 sur Torre 9 Apto 603",
+                "zona": "Sur",
+                "ciudad": "Bogotá",
+                "rol": "Consultor"
+            },
+            {
+                "id": 5,
+                "nombre": "Judy Viviana Hernández Trujillo",
+                "salario": 1500000,
+                "vinculacion": "Medio_Tiempo",
+                "base": "CLL 32AN 2B 55 APTO B907",
+                "cobertura": "Cali y municipios aledaños",
+                "ciudad": "Cali",
+                "rol": "Consultor"
+            },
+            {
+                "id": 6,
+                "nombre": "Sandra Sánchez",
+                "vinculacion": "Destajo",
+                "base": "Tunja",
+                "cobertura": "Tunja y municipios aledaños",
+                "ciudad": "Tunja",
+                "rol": "Consultor"
+            },
+            {
+                "id": 7,
+                "nombre": "Johana Machado",
+                "vinculacion": "Destajo",
+                "base": "Conjunto campestre cámbulos Lt 36cs 103",
+                "cobertura": "Ibagué y municipios aledaños",
+                "ciudad": "Ibagué",
+                "rol": "Consultor"
+            },
+            {
+                "id": 8,
+                "nombre": "David Roa",
+                "vinculacion": "Destajo",
+                "base": "CALLE 12 #1-45 Flandes - Tolima",
+                "cobertura": "Flandes, Girardot y municipios cercanos",
+                "ciudad": "Girardot",
+                "rol": "Consultor"
+            }
+        ],
+        "estadisticas": {
+            "total_consultores": 8,
+            "tipos_vinculacion": {
+                "Tiempo_Completo": 4,
+                "Medio_Tiempo": 1,
+                "Destajo": 3
+            },
+            "ciudades": [
+                "Bogotá",
+                "Cali",
+                "Tunja",
+                "Ibagué",
+                "Girardot"
+            ]
+        }
+    }
+}
