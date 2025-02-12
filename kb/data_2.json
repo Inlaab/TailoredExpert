@@ -1,8 +1,13 @@
 {
-  "tipo": "conexiones",
-  "datos": [
-    "A",
-    "B",
-    "C"
-  ]
+  "concepto": "Machine Learning",
+  "tipo": "rama",
+  "relaciones": [
+      "Aprendizaje Supervisado",
+      "Aprendizaje No Supervisado",
+      "Aprendizaje por Refuerzo"
+  ],
+  "metadata": {
+      "fecha": "2024-01-20",
+      "version": "1.0"
+  }
 }
