@@ -1,0 +1,17 @@
+{
+    "respuestas": {
+        "nodo": {
+            "exito": "{resultado}",
+            "error": "Error al procesar el nodo: {mensaje}"
+        },
+        "conexion": {
+            "exito": "{resultado}",
+            "error": "Error al crear conexión: {mensaje}"
+        }
+    },
+    "errores": {
+        "general": "Ocurrió un error en la operación",
+        "nodo": "Error en operación de nodo",
+        "conexion": "Error en operación de conexión"
+    }
+}

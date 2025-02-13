@@ -1,80 +1,107 @@
-import json
-import os
-from datetime import datetime
-from pathlib import Path
+# src/grafo.py
+from typing import Dict, Any, List, Optional, Set
+from .response import Response
 
 class Grafo:
     def __init__(self):
-        self.nodos = {}
-        self.ultima_actualizacion = datetime.now()
+        self.nodos: Dict[str, Dict[str, Any]] = {}
+        self.conexiones: Dict[str, Dict[str, float]] = {}
+        self.response = Response()
 
-    def cargar_desde_kb(self):
-        """Carga los datos desde los archivos JSON en la carpeta kb"""
-        kb_path = Path("kb")
-        print("\nArchivos en kb:")
-        
-        for archivo in kb_path.glob("*.json"):
-            try:
-                with open(archivo, 'r') as f:
-                    datos = json.load(f)
-                    
-                if isinstance(datos, dict) and 'nodo' in datos:
-                    print(f"✓ {archivo.name}: {datos['nodo']}")
-                    self.agregar_nodo(datos['nodo'], {
-                        'tipo': datos.get('tipo'),
-                        'descripcion': datos.get('descripcion', ''),
-                        'propiedades': datos.get('propiedades', {})
-                    })
-                    
-                    # Procesar conexiones
-                    for conexion in datos.get('conexiones', []):
-                        if isinstance(conexion, str):
-                            self.agregar_conexion(datos['nodo'], conexion)
-                else:
-                    print(f"Ignorando conexión inválida en {archivo}: {datos}")
-                    
-            except json.JSONDecodeError:
-                print(f"Error al leer {archivo}: formato JSON inválido")
-            except Exception as e:
-                print(f"Error procesando {archivo}: {str(e)}")
-
-    def agregar_nodo(self, nombre, metadata=None):
+    def agregar_nodo(self, id: str, datos: Dict[str, Any]) -> str:
         """Agrega un nuevo nodo al grafo"""
-        if metadata is None:
-            metadata = {}
-        if nombre not in self.nodos:
-            self.nodos[nombre] = {
-                'metadata': metadata,
-                'conexiones': []
-            }
-        self.ultima_actualizacion = datetime.now()
-        return self.nodos[nombre]
+        try:
+            if id in self.nodos:
+                return self.response.get('error', {
+                    'mensaje': 'El nodo ya existe'
+                })
+            self.nodos[id] = datos
+            return self.response.get('nodo', {
+                'resultado': f'Nodo {id} agregado correctamente'
+            })
+        except Exception as e:
+            return self.response.get('error', {
+                'mensaje': str(e)
+            })
 
-    def agregar_conexion(self, origen, destino):
-        """Agrega una conexión entre dos nodos"""
-        if origen in self.nodos and destino in self.nodos:
-            if destino not in self.nodos[origen]['conexiones']:
-                self.nodos[origen]['conexiones'].append(destino)
-            if origen not in self.nodos[destino]['conexiones']:
-                self.nodos[destino]['conexiones'].append(origen)
-            self.ultima_actualizacion = datetime.now()
+    def conectar(self, origen: str, destino: str, peso: float = 1.0) -> str:
+        """Crea una conexión entre dos nodos"""
+        try:
+            if origen not in self.nodos or destino not in self.nodos:
+                return self.response.get('error', {
+                    'mensaje': 'Nodos no encontrados'
+                })
+            
+            if origen not in self.conexiones:
+                self.conexiones[origen] = {}
+            
+            self.conexiones[origen][destino] = peso
+            return self.response.get('conexion', {
+                'resultado': f'Conexión {origen}->{destino} creada'
+            })
+        except Exception as e:
+            return self.response.get('error', {
+                'mensaje': str(e)
+            })
 
-    def obtener_nodos(self):
-        """Retorna la lista de nombres de nodos"""
-        return list(self.nodos.keys())
+    def obtener_nodo(self, id: str) -> Optional[Dict[str, Any]]:
+        """Obtiene la información de un nodo específico"""
+        return self.nodos.get(id)
 
-    def obtener_conexiones(self, nodo):
-        """Retorna las conexiones de un nodo"""
-        return self.nodos.get(nodo, {}).get('conexiones', [])
+    def obtener_conexiones(self, id: str) -> Dict[str, float]:
+        """Obtiene todas las conexiones de un nodo"""
+        return self.conexiones.get(id, {})
 
-    def obtener_info_nodo(self, nodo):
-        """Retorna la metadata de un nodo"""
-        return self.nodos.get(nodo, {}).get('metadata', {})
+    def eliminar_nodo(self, id: str) -> str:
+        """Elimina un nodo y sus conexiones"""
+        try:
+            if id not in self.nodos:
+                return self.response.get('error', {
+                    'mensaje': 'Nodo no encontrado'
+                })
+            
+            # Eliminar el nodo
+            del self.nodos[id]
+            
+            # Eliminar conexiones salientes
+            if id in self.conexiones:
+                del self.conexiones[id]
+            
+            # Eliminar conexiones entrantes
+            for origen in self.conexiones:
+                if id in self.conexiones[origen]:
+                    del self.conexiones[origen][id]
+            
+            return self.response.get('nodo', {
+                'resultado': f'Nodo {id} eliminado correctamente'
+            })
+        except Exception as e:
+            return self.response.get('error', {
+                'mensaje': str(e)
+            })
 
-    def obtener_estadisticas(self):
-        """Retorna estadísticas del grafo"""
+    def buscar_camino(self, origen: str, destino: str) -> List[str]:
+        """Encuentra el camino más corto entre dos nodos usando BFS"""
+        if origen not in self.nodos or destino not in self.nodos:
+            return []
+        
+        visitados: Set[str] = set()
+        cola = [(origen, [origen])]
+        
+        while cola:
+            (vertice, camino) = cola.pop(0)
+            for siguiente in self.conexiones.get(vertice, {}):
+                if siguiente not in visitados:
+                    if siguiente == destino:
+                        return camino + [siguiente]
+                    visitados.add(siguiente)
+                    cola.append((siguiente, camino + [siguiente]))
+        return []
+
+    def obtener_info(self) -> Dict[str, Any]:
+        """Retorna información general del grafo"""
         return {
-            'nodos': len(self.nodos),
-            'conexiones': sum(len(n['conexiones']) for n in self.nodos.values()) // 2,
-            'ultima_actualizacion': self.ultima_actualizacion
+            'total_nodos': len(self.nodos),
+            'total_conexiones': sum(len(conexiones) for conexiones in self.conexiones.values()),
+            'nodos': list(self.nodos.keys())
         }
